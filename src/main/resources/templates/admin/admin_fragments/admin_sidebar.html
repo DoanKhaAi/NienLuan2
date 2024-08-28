@@ -1,0 +1,85 @@
+<div th:fragment="admin_sidebar">
+<!-- Sidebar -->
+
+<div  style="background-color: rgba(0, 100, 0, 0.1);">
+	<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" >
+			
+			<div style="height:45px; width:100%">
+			
+			</div>
+			
+			
+
+			<hr class="sidebar-divider" >
+            <li class="nav-item active">
+                <a class="nav-link ms-4" th:href="@{/admin/dashboard}" style="color:BLACK; font-weight:1000">
+                    <span>TRANG CHỦ ADMIN</span></a>
+            </li>
+			
+            <hr class="sidebar-divider">
+            <li class="nav-item active fw-bold "  >
+                <a class="nav-link ms-4" th:href="@{/admin/user/list}" style="color:green">
+                    <span>Quản lý Người dùng</span></a>
+            </li>
+            
+            <hr class="sidebar-divider">
+            <li class="nav-item active fw-bold "  >
+                <a class="nav-link ms-4" th:href="@{/admin/payment/list}" style="color:green">
+                    <span>Quản lý Thanh toán</span></a>
+            </li>
+            
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <li class="nav-item active fw-bold" >
+                <a class="nav-link ms-4" th:href="@{/admin/children/list}"  style="color:green">
+                    <span>Quản lý Trẻ em</span></a>
+            </li>
+            
+            
+            <hr class="sidebar-divider" >
+            <li class="nav-item active fw-bold">
+                <div class="dropdown">
+				  <div class="dropdown-toggle ms-4" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+				  	 aria-expanded="false" style="color:green">
+				    Quản lý Giáo dục
+				  </div>
+				  <ul class="ms-4" aria-labelledby="dropdownMenuButton1">
+				 	<hr class="sidebar-divider" >
+				    <div><a class="ms-2" th:href="@{/admin/school/list}" style="color:green">Quản lý Trường</a></div>
+				    <hr class="sidebar-divider" >
+				    <div><a class="ms-2" th:href="@{/admin/grade/list}"  style="color:green">Quản lý Khối lớp</a></div>
+				    <hr class="sidebar-divider" >
+				    <div><a class="ms-2" th:href="@{/admin/schoolYear/list}" style="color:green">Quản lý Năm học</a></div>
+				    <hr class="sidebar-divider" >
+				    <div><a class="ms-2" th:href="@{/admin/study/list}"  style="color:green">Quản lý Việc học</a></div>  
+				  </ul>
+				</div>
+            </li>
+            
+            
+            <hr class="sidebar-divider" >
+            <li class="nav-item active fw-bold">
+                <div class="dropdown">
+				  <div class="ms-4 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+				  	 aria-expanded="false" style="color:green">
+				    Quản lý Địa phương
+				  </div>
+				  <ul class="ms-4" aria-labelledby="dropdownMenuButton1">
+				  	<hr class="sidebar-divider" >
+				    <div><a class="ms-2"  th:href="@{/admin/province/list}" style="color:green">Quản lý Tỉnh</a></div>
+				    <hr class="sidebar-divider" >
+				    <div><a class="ms-2" th:href="@{/admin/district/list}"  style="color:green">Quản lý Huyện</a></div>
+				 
+				  </ul>
+				</div>
+            </li>
+    
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+			
+            
+        </ul>
+</div>
+        
+
+</div>

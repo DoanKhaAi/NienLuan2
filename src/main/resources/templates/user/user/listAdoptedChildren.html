@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	
+
+	
+	<div  th:replace="user/fragmentsuser/navbaruser :: navbaruser" ></div>
+    
+    <div class="container">
+         <div class=" text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">  
+             <h1 class="display-6" style="color: #38761D; ">Thông tin nhận nuôi</h1></div>
+          	<div th:if="${message_adopt}" class="alert alert-success text-center">
+					[[${message_adopt}]]
+			</div>
+			<div th:if="${message_cancel}" class="alert alert-success text-center">
+					[[${message_cancel}]]
+			</div>
+			 <div class="row mt-5 mx-auto" style="width:80%">
+			 <th:block th:each="child : ${listChildren}">
+			 	
+			 		<div class="row mb-3 p-2" style="background: rgba(76, 153, 0, 0.3) ">
+			 			<div class="col-4">
+			 				<img th:src="'/img/children/' +${child.image}" class="" alt="..." style="width: 90%; height:12rem">	
+			 			</div>
+			 			<div class="col-8 mt-3" style="color:green" >
+			 				<div class="fs-5 mb-2" style="font-weight:700">Họ tên trẻ em: [[${child.fullname}]]</div>
+			 				<div th:text="${child.gender == 1 ? 'Giới tính: Nam' : 'Giới tính: Nữ'}"></div>
+			 				<div> Ngày sinh: [[${child.birthday}]]</div>
+			 				<div th:text="${studyMap[child.childID]?.school?.schoolName}"></div>
+			 				<div th:text="${'Địa chỉ: ' + studyMap[child.childID]?.school?.district.districtName}+', '
+								+ ${studyMap[child.childID]?.school?.district.province.provinceName} "></div>
+							<a th:href="@{'/user/children/cancel/'+${child.childID}}" class="btn btn-primary" style="float:right;font-family: Times New Roman;
+								font-size:1.1rem; font-weight:500" onclick="return confirmCancel();" >Hủy nhận nuôi</a>
+			 			</div>
+			 		</div>
+			 	
+			 </th:block>
+			 </div>
+	</div>					
+   <script type="text/javascript">
+	    function confirmCancel() {
+	        return confirm('Bạn có chắc chắn muốn hủy nhận nuôi không?');
+	    }
+	</script>
+	
+    <!-- Footer Start -->
+    <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

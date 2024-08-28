@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+<body>
+	<div  th:replace="fragments/navbar :: navbar" ></div>
+   
+    <div class="container" >
+   		<div class=" text-center mx-auto" data-wow-delay="0.1s" style="max-width: 500px;">
+             <h1 class="display-10" style="color: #38761D; ">NHẬP MÃ XÁC THỰC OTP</h1>
+        </div>
+        <div class=" text-center mx-auto" style="max-width: 500px;">
+             <p style="color: BLUE; ">VUI LÒNG KIỂM TRA EMAIL CỦA BẠN. CHÚNG TÔI ĐÃ GỬI MÃ XÁC THỰC OTP QUA EMAIL MÀ BẠN CUNG CẤP!</p>
+        </div>
+        <div th:if="${save_error}" style="width: 50%;" class="alert alert-danger text-center mx-auto" role="alert">
+            <span th:text="${save_error}"></span>
+        </div>
+	    <div class="mx-auto p-5" style="width: 50%; background: rgba(76, 153, 0, 0.3); border-radius:10%;">
+				<form th:action="@{/verifyOtp}" method="post" >
+				    <input type="text" name="otp" style="width: 80%;" placeholder="Nhập mã OTP của bạn" required>
+				    <input type="hidden" th:value="${otp}" name="generatedOtp">
+				    <button type="submit">Xác thực</button>
+				</form>
+
+				<div>[[${otp}]]</div>
+		
+	    </div>
+    </div>
+   <div  th:replace="fragments/footer :: footer" ></div>
+</body>
+</html>

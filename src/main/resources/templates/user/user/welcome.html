@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	
+	<div  th:replace="user/fragmentsuser/navbaruser :: navbaruser" ></div>
+    <!-- Carousel Start -->
+    <div class="container-fluid px-0">
+        <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="w-100" th:src="@{/img/user/slide.jpg}" style="height:600px" alt="Image">
+                    <div class="carousel-caption">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-7 text-center">
+	                              	<h1 class="display-1 text-dark mb-4 animated zoomIn" th:if="${user.username}" >Chào mừng [[${user.username}]]</h1>
+	                              	<div> <a style="color:white; background-color:#1d6607; font-size:2rem; font-weight:700; padding: 9px" 
+	                              		th:href="@{'/profile/detail/' +${user.userID}}" 
+	                              		class="me-3">Thông tin chi tiết</a></div>	
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+           
+        </div>
+    </div>
+    <!-- Carousel End -->
+
+
+    <!-- Footer Start -->
+    <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+		<h2 class=" text-center mt-5" style="color:#38761D;">[[${pageTitle}]]</h2>
+			<form th:action="@{/admin/study/save}" method="post" th:object="${study}"
+				style="max-width:500px; margin:0 auto">
+				<div th:if="${message}" class="alert alert-success text-center">
+					[[${message}]]
+				</div>
+				<div th:if="${error}" class="alert alert-danger text-center">
+					[[${error}]]
+				</div>
+				<div class="border border-success rouded p-3">
+					<input type=hidden th:field="*{studyID}"/>
+					
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label">Trẻ em</label>
+						<div class="col-sm-9">
+							<select style="width:100%" th:field="*{children.childID}" required>
+									<option value="" disabled selected>-- Chọn Trẻ Em --</option>
+									<th:block th:each="child : ${childrens}">
+			            				<option
+						                    th:value="${child.childID}" 
+						                    th:text="${'ID: ' + child.childID +') ' + child.fullname}">
+			            				</option>
+		            				</th:block>
+		        			</select>
+						</div>
+	        			
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label">Khối lớp</label>
+						<div class="col-sm-9">
+							<select style="width:100%" th:field="*{grade.gradeID}" required>
+									<option value="" disabled selected>-- Chọn Khối lớp --</option>
+		            				<option th:each="grade : ${grades}" 
+					                    th:value="${grade.gradeID}" 
+					                    th:text="${grade.gradeName}">
+		            				</option>
+		        			</select>
+						</div>
+	        			
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label">Năm học</label>
+						<div class="col-sm-9">
+							<select style="width:100%" th:field="*{schoolYear.schoolYearID}" required>
+									<option value="" disabled selected>-- Chọn Năm học --</option>
+		            				<option th:each="schoolYear : ${schoolYears}" 
+					                    th:value="${schoolYear.schoolYearID}" 
+					                    th:text="${schoolYear.schoolYearName}">
+		            				</option>
+		        			</select>
+						</div>
+	        			
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label">Trường học</label>
+						<div class="col-sm-9">
+							<select style="width:100%" th:field="*{school.schoolID}" required>
+									<option value="" disabled selected>-- Chọn Trường --</option>
+		            				<option th:each="school : ${schools}" 
+					                    th:value="${school.schoolID}" 
+					                    th:text="${school.schoolName}">
+		            				</option>
+		        			</select>
+						</div>
+	        			
+					</div>
+					
+					
+					
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary m-2">Lưu</button>
+						<button type="button" class="btn btn-secondary m-2" style="background-color:gray">
+							<a th:href="@{/admin/study/list}" style="color:white;">Hủy</a>
+							
+						</button>
+						
+					</div>
+				</div>
+			</form>
+		</div>
+	
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

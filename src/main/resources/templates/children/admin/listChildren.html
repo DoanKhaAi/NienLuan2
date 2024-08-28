@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+			 <h3 class="text-center mt-5" style="color:#38761D;">Quản lý Trẻ em</h3>
+    
+			<div class="mx-auto" style="width:80%;" >
+				<a th:href="@{/admin/children/new}" class="mb-5 fs-5 fw-bold">Thêm trẻ em mới</a>
+				<div th:if="${message}" class="alert alert-success text-center">
+					[[${message}]]
+				</div>
+				<table class="table" style="background:#dcebd8">
+					<thead>
+						<tr>	
+							<th scope="col">ID trẻ em</th>					
+							<th scope="col">Họ và tên</th>
+							<th scope="col">Giới tính</th>
+							<th scope="col">Ngày sinh</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="child : ${listChildren}">
+						<tr>
+							<td>[[${child.childID}]]</td>
+							<td>[[${child.fullname}]]</td>
+							<td th:text="${child.gender == 1 ? 'Nam' : 'Nữ'}">Giới tính</td>
+							<td>[[${child.birthday}]]</td>
+							<td class="h6">
+								<a th:href="@{'/admin/children/detail/' +${child.childID}}" class="me-3">Chi tiết</a>
+								<a th:href="@{'/admin/children/edit/' +${child.childID}}" class="me-3">Chỉnh sửa trẻ em</a>
+								<a href="#" th:onclick="'javascript:confirmDelete(\'' + ${child.childID} + '\');'">Xóa trẻ em</a>
+							</td>
+						</tr>
+						</th:block>
+					
+					</tbody>
+				</table>	
+				<a th:href="@{/admin/children/listDeleted}" class="mb-5 fs-5 fw-bold">Phục hồi trẻ em</a>		
+			</div>
+			
+			<div class="mx-auto text-center">
+			    <div>
+
+			        <a class="p-2" style="color:green" 
+			           th:if="${listChildren.number > 0}"
+			           th:href="@{/admin/children/list(page=${listChildren.number - 1}, size=${listChildren.size})}"
+			           title="Previous Page">« Trang trước</a>
+
+			        <div th:each="i : ${#numbers.sequence(0, listChildren.totalPages - 1)}" style="display:inline-block">
+			            <a th:href="@{/admin/children/list(page=${i}, size=${listChildren.size})}"
+			               th:text="${i + 1}"
+			               style="padding:0.3rem 0.7rem; background:#174a06; color:white; margin: 0rem 0.4rem; text-decoration: none;"
+			               th:classappend="${i == listChildren.number} ? 'active'">
+			            </a>
+			        </div>
+			        
+
+			        <a class="p-2" style="color:green"
+			           th:if="${listChildren.number < listChildren.totalPages - 1}"
+			           th:href="@{/admin/children/list(page=${listChildren.number + 1}, size=${listChildren.size})}"
+			           title="Next Page">Trang sau »</a>
+			    </div>
+			</div>
+			
+		</div>
+	</div>	
+	
+	<script type="text/javascript">
+	    function confirmDelete(childId) {
+	        if (confirm('Bạn có chắc chắn muốn xóa trẻ em này?')) {
+	            window.location.href = '/admin/children/delete/' + childId;
+	        }
+	    }
+	</script>
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

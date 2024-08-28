@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+			 <h3 class="text-center mt-5" style="color:#38761D;">Quản lý Người dùng</h3>
+    
+			<div class="mx-auto" style="width:95%;" >
+				
+				<div th:if="${message}" class="alert alert-success text-center">
+					[[${message}]]
+				</div>
+				<table class="table" style="background: #dcebd8">
+					<thead>
+						<tr>	
+							<th scope="col">ID người dùng</th>					
+							<th scope="col">Họ và tên</th>
+							<th scope="col">Tên người dùng</th>
+							<th scope="col">Email</th>
+							<th scope="col">Giới tính</th>
+							<th scope="col">Ngày sinh</th>
+							<th scope="col">Vai trò</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="user : ${listUsers}">
+						<tr>
+							<td>[[${user.userID}]]</td>
+							<td>[[${user.fullname}]]</td>
+							<td>[[${user.username}]]</td>
+							<td>[[${user.email}]]</td>
+							<td th:text="${user.gender == 1 ? 'Nam' : 'Nữ'}">Giới tính</td>
+							<td>[[${user.birthday}]]</td>
+							<td>[[${user.role}]]</td>
+							<td class="h6">
+								<a th:href="@{'/admin/user/edit/' +${user.userID}}" class="me-3">Chỉnh sửa vai trò</a>
+				
+							</td>
+						</tr>
+						</th:block>
+					
+					</tbody>
+				</table>			
+			</div>
+			
+			<div class="mx-auto text-center">
+			    <div class="mt-4">
+			        <a class="p-2" 
+			           th:if="${listUsers.number > 0}"
+			           th:href="@{/admin/user/list(page=${listUsers.number - 1}, size=${listUsers.size})}"
+			           title="Previous Page"
+			           style="color: green; text-decoration: none;">« Trang trước</a>
+			
+			        <div th:each="i : ${#numbers.sequence(0, listUsers.totalPages - 1)}" style="display:inline-block; margin:0 0.2rem;">
+			            <a th:href="@{/admin/user/list(page=${i}, size=${listUsers.size})}"
+			               th:text="${i + 1}"
+			               style="padding:0.3rem 0.7rem; background:#174a06; color:white; text-decoration: none;"
+			               th:classappend="${i == listUsers.number} ? 'active'">
+			            </a>
+			        </div>
+
+			        <a class="p-2" 
+			           th:if="${listUsers.number < listUsers.totalPages - 1}"
+			           th:href="@{/admin/user/list(page=${listUsers.number + 1}, size=${listUsers.size})}"
+			           title="Next Page"
+			           style="color: green; text-decoration: none;">Trang sau »</a>
+			    </div>
+			</div>
+			
+		</div>
+	</div>	
+	
+	
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

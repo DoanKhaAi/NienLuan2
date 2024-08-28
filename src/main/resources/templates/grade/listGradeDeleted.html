@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+			 <h3 class="text-center mt-5" style="color:#38761D;">Danh sách khối lớp đã xóa</h3>
+    
+			<div class="mx-auto" style="width:80%;" >
+				<a th:href="@{/admin/grade/list}" class="mb-5 fs-5 fw-bold">Trở về</a>
+				<div th:if="${message}" class="alert alert-success text-center">
+					[[${message}]]
+				</div>
+				<div th:if="${error}" class="alert alert-danger text-center">
+					[[${error}]]
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Tên khối lớp</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="grade : ${listGrades}">
+						<tr>
+							<td>[[${grade.gradeID}]]</td>
+							<td>[[${grade.gradeName}]]</td>
+							<td class="h6">
+								<a th:href="@{'/admin/grade/restore/' +${grade.gradeID}}" class="me-3">Phục hồi khối lớp</a>
+
+							</td>
+						</tr>
+						</th:block>
+					
+					</tbody>
+				</table>	
+					
+			</div>
+		</div>
+	</div>	
+	
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	
+	<div id="spinner">
+		class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+		<div class="spinner-border text-primary" role="status"
+			style="width: 3rem; height: 3rem;"></div>
+	</div>
+	<div class="container-fluid bg-white sticky-top">
+		<div class="container-fluid">
+			<nav class="navbar navbar-expand-lg bg-white navbar-light py-2 py-lg-0" style=" border-bottom: 2px solid  #38761D; max-height:50px">
+				<a style="color:white" th:if="${user.role == 'USER'}" th:href="@{/user/welcome}"class="navbar-brand">
+					 <img class="img-fluid" th:src="@{/img/logo.png}" alt="Logo" style="width:140px; height:120px"></a>
+	    		<a style="color:white" th:if="${user.role == 'ADMIN'}" th:href="@{/admin/dashboard}"class="navbar-brand"> 
+	    			<img class="img-fluid" th:src="@{/img/logo.png}" alt="Logo" style="width:140px; height:120px"></a>
+			</nav>
+		</div>
+	</div>
+	
+	<div class="mx-auto" style="margin-top:50px; width:60%">
+		<div class=" text-center mx-auto" data-wow-delay="0.1s" style="max-width: 500px;">
+             <h1 class="display-6" style="color: #38761D; ">Chỉnh sửa thông tin</h1>
+        </div>
+       <div th:if="${message}" class="alert alert-danger text-center">
+					[[${message}]]
+		</div>
+	    <div class="mx-auto p-5" style="width: 73%; background: rgba(76, 153, 0, 0.3); border-radius:10%;">
+	    	<form th:action="@{/profile/save_user_change_image}" method="post" th:object="${user}" enctype="multipart/form-data">
+	    		<input type=hidden th:field="*{userID}"/>
+	    		<div class="input-group mb-3">
+					<span style="width:9rem" class="input-group-text" id="basic-addon1">Tên đăng nhập</span> 
+					<input th:field="*{username}"  th:value="${user.username}" type="text" class="form-control" readonly>
+				</div>
+				<div class="input-group mb-3">
+					<span style="width:9rem" class="input-group-text" id="basic-addon1">Ảnh đại diện</span> 
+					<input type="file" class="form-control" name="imageFile"
+						accept=".jpg, .jpeg, .png">
+				</div>
+				<div style="display:flex; float:right">
+					<input class="btn btn-primary" type="submit" value="Lưu thay đổi">
+				</div>
+				<div style="display:flex; float: right; margin-right:5px; background-color:gray" >
+					<a class="btn btn-outline-secondary" th:href="@{'/profile/detail/' +${user.userID}}" style="color:white;">Hủy</a>	
+				</div>
+				
+			</form>
+			
+	    </div>
+	</div>
+   
+	
+    <!-- Footer Start -->
+    <div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+</body>
+</html>

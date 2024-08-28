@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+			 <h3 class="text-center mt-5" style="color:#38761D;">Thay đổi hình trẻ em</h3>
+    	 <div th:if="${message}" class="alert alert-danger text-center">
+					[[${message}]]
+		</div>
+	    <div class="mx-auto p-5" style="width: 50%; background: rgba(76, 153, 0, 0.3); border-radius:10%;">
+	    	<form th:action="@{/admin/children/save_children_change_image}" method="post" th:object="${children}" enctype="multipart/form-data">
+	    		<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">ID trẻ em</span> 
+					<input th:field="*{childID}"  th:value="${children.childID}" type="text" class="form-control" readonly>
+				</div>
+	    		<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">Tên trẻ em</span> 
+					<input th:field="*{fullname}"  th:value="${children.fullname}" type="text" class="form-control" readonly>
+				</div>
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">Ảnh đại diện</span> 
+					<input type="file" class="form-control" name="imageFile"
+						accept=".jpg, .jpeg, .png">
+				</div>
+				<div style="display:flex; float:right">
+					<input class="btn btn-primary" type="submit" value="Lưu thay đổi">
+				</div>
+				<div style="display:flex; float: right; margin-right:5px; background-color:gray" >
+					<a class="btn btn-outline-secondary" th:href="@{'/admin/children/detail/' +${children.childID}}" style="color:white;">Hủy</a>	
+				</div>
+				
+			</form>
+			
+	    </div>
+			
+		</div>
+	</div>	
+	
+	
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

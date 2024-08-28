@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	
+
+	
+	<div  th:replace="user/fragmentsuser/navbaruser :: navbaruser" ></div>
+    
+    <div class="container">
+    		<div class="row mt-3">
+    			<div class="col-6">
+						<img th:src="@{/img/user/payment.jpg}" class="" alt="..." style="width: 80%; ">	
+    			</div>
+    			 <div class="col-6 border-start border-success border-2" >  
+    			 	<div class="ms-5 mt-5 fs-5 fw-bold" style="color:green">
+	    			 	<p>*Bạn vui lòng chuyển khoản bằng cách quét mã QR bên trái</p>
+	    			 	<p>*Nội dung chuyển khoản là tên đăng nhập của bạn, tên đăng nhập của bạn là: [[${user.username}]]<p>
+	         			<p style="color: #db8c04">*Số tiền cần chuyển: [[${payment.needReceivedMoney}]] đồng</p>
+	         			<p style="color: #db8c04">*Số tiền đã chuyển: [[${payment.receivedMoney}]] đồng</p>
+	         			<p style="color: #db8c04">*Số tiền dư lại:  [[${payment.receivedMoney - payment.needReceivedMoney}]] đồng</p>
+	         			<p class="text-center fs-6 " style="color:blue">***Số tiền mà bạn chuyển dư sẽ được dùng để xây trường học cho các em.
+	         				Cảm ơn bạn đã đồng hành cùng dự án "Nuôi em"***</p>
+    			 	</div>
+    			 	
+         		</div>
+    		
+    		</div>
+        
+	</div>					
+	
+    <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

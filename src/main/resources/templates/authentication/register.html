@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+<body>
+	<div  th:replace="fragments/navbar :: navbar" ></div>
+   
+    <div class="container" >
+   		<div class=" text-center mx-auto" data-wow-delay="0.1s" style="max-width: 500px;">
+             <h1 class="display-6" style="color: #38761D; ">Đăng ký tài khoản</h1>
+        </div>
+        <div th:if="${save_error}" class="alert alert-danger text-center" role="alert">
+            <span th:text="${save_error}"></span>
+        </div>
+         <div th:if="${save_error2}" class="alert alert-danger text-center" role="alert">
+            <span th:text="${save_error2}"></span>
+        </div>
+        <div th:if="${save_error3}" class="alert alert-danger text-center" role="alert">
+            <span th:text="${save_error3}"></span>
+        </div>
+        <div th:if="${save_success}" class="alert alert-success text-center" role="alert">
+            <span th:text="${save_success}"> </span>
+            <a th:href="@{/login}" class="fs-6">Đăng nhập</a>
+        </div>
+	    <div class="mx-auto p-5" style="width: 73%; background: rgba(76, 153, 0, 0.3); border-radius:10%;">
+	    	<form th:action="@{/check}" method="post" th:object="${user}" enctype="multipart/form-data">
+	    		<input type=hidden th:field="*{userID}"/>
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1" style="min-width:9rem">Tên đăng nhập</span> 
+					<input th:field="*{username}" type="text" class="form-control" required>
+				</div>
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1" style="min-width:9rem">Mật khẩu</span> 
+					<input th:field="*{password}" type="password" class="form-control" id="password" name="password"
+						placeholder="Mật khẩu phải từ 6 đến 10 ký tự, bao gồm cả chữ cái, chữ số và ký tự đặc biệt">
+					<span id="togglePassword" onclick="togglePasswordField()" >
+        				<i class="fa fa-eye-slash mt-2 ms-1" id="eyeIcon"></i>
+   					</span>
+				</div>
+				
+				<div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1" style="min-width:9rem">Email</span>
+                    <input th:field="*{email}" type="email" class="form-control" required>
+                </div>
+				
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1"  style="min-width:9rem">Họ và tên</span> 
+					<input th:field="*{fullname}" type="text" class="form-control" required>
+				</div>
+				
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1"  style="min-width:9rem">Ngày sinh</span> 
+					<input th:field="*{birthday}" type="date" class="form-control">
+				</div>
+				
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1" style="min-width:9rem">Giới tính</span> 
+					<select th:field="*{gender}" type="text" class="form-control">
+						<option value="">Chọn giới tính</option>
+			            <option value="1">Nam</option>
+			            <option value="2">Nữ</option>
+			            <option value="3">Không trả lời</option>
+       				 </select>
+				</div>
+				
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1" style="min-width:9rem">Ảnh đại diện</span> 
+					<input type="file" class="form-control" name="imageFile"
+						accept=".jpg, .jpeg, .png">
+				</div>
+				
+				<div style="display:flex; justify-content:space-between">
+					<p style="font-weight: 600;color: #4A9232" >Bạn đã có tài khoản? <a href="/login" style="color:blue">Đăng nhập</a></p>
+					<input class="btn btn-primary" type="submit" value="Đăng ký">
+				</div>
+				
+			</form>
+			
+	    </div>
+    </div>
+
+	<script>
+		function togglePasswordField() {
+		    var passwordField = document.getElementById("password");
+		    var eyeIcon = document.getElementById("eyeIcon");
+	
+		    if (passwordField.type === "password") {
+		        passwordField.type = "text";
+		        eyeIcon.classList.remove("fa-eye-slash");
+		        eyeIcon.classList.add("fa-eye");
+		    } else {
+		        passwordField.type = "password";
+		        eyeIcon.classList.remove("fa-eye");
+		        eyeIcon.classList.add("fa-eye-slash");
+		    }
+		}
+	</script>
+   <div  th:replace="fragments/footer :: footer" ></div>
+</body>
+</html>

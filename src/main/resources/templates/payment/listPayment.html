@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+			 <h3 class="text-center mt-5" style="color:#38761D;">Quản lý Thanh toán</h3>
+    
+			<div class="mx-auto" style="width:90%;" >
+				<div th:if="${message}" class="alert alert-success text-center">
+					[[${message}]]
+				</div>
+				<form th:action="@{/admin/payment/list}" method="get" class="mb-3">
+                    <div class="input-group">
+                        <input type="text" th:name="username" th:value="${username}" class="form-control" placeholder="Nhập tên người dùng">
+                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    </div>
+                </form>
+				<table class="table" style="background: #dcebd8">
+					<thead>
+						<tr>
+							<th scope="col">ID Thanh toán</th>
+							<th scope="col">Tên người dùng</th>
+							<th scope="col">Thời gian</th>
+							<th scope="col">Số tiền cần chuyển</th>
+							<th scope="col">Số tiền đã nhận</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="payment : ${listPayments}">
+						<tr>
+							<td>[[${payment.paymentID}]]</td>
+							<td>[[${payment.user.username}]]</td>
+							<td>[[${payment.monthYear.month}]]/[[${payment.monthYear.year}]]</td>
+							<td>[[${payment.needReceivedMoney}]]</td>
+							<td>[[${payment.receivedMoney}]]</td>
+							<td class="h6">
+								<a th:href="@{'/admin/payment/edit/' +${payment.paymentID}}" class="me-3">Cập nhật số tiền đã nhận</a>
+							</td>
+						</tr>
+						</th:block>
+					
+					</tbody>
+				</table>		
+			</div>
+			
+			<div class="mx-auto text-center">
+			    <div>
+			        <a class="p-2" style="color:green" 
+			           th:if="${listPayments.number > 0}" 
+			           th:href="@{/admin/payment/list(page=${listPayments.number - 1}, size=${listPayments.size})}">
+			            « Trang trước
+			        </a>
+			
+			        <div th:if="${listPayments.totalPages > 0}" th:each="i : ${#numbers.sequence(0,listPayments.totalPages - 1)}" style="display:inline-block">
+			            <a th:href="@{/admin/payment/list(page=${i}, size=${listPayments.size})}" 
+			               th:text="${i + 1}" 
+			               style="padding:0.3rem 0.7rem; background:#174a06; color:white; margin: 0rem 0.4rem; text-decoration: none;"
+			               th:classappend="${i == listPayments.number} ? 'active'">
+			            </a>
+			        </div>
+			
+			        <a class="p-2" style="color:green" 
+			           th:if="${listPayments.number < listPayments.totalPages - 1}" 
+			           th:href="@{/admin/payment/list(page=${listPayments.number + 1}, size=${listPayments.size})}">
+			            Trang sau »
+			        </a>
+			    </div>
+			</div>
+
+			
+		</div>
+	</div>	
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

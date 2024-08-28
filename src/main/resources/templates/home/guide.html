@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+<body>
+	<div  th:replace="fragments/navbar :: navbar" ></div>
+
+   
+    <!-- Contact Start -->
+    <div class="container-xxl contact py-5">
+        <div class="container">
+            <div class=" text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+                <h1 class="display-6" style="color: #38761D; ">Hướng dẫn Nuôi Em</h1>
+                 <p class="text-center mb-5 text-primary">Cảm ơn bạn đã quan tâm đến Dự án, chúng tôi rất lấy làm cảm kích với tấm lòng của bạn!</p>
+            </div>
+            <div class="row justify-content-center wow fadeInUp mx-auto fw-bold" data-wow-delay="0.1s" style="width:90%">
+                <div class="fs-6 fw-bold mb-3 text-success">**Lưu ý: Để nhận nuôi em, bạn vui lòng tạo 1 tài khoản cho mình nhé</div>
+                <ul>
+                	<li>Bước 1: Nhấn vào mục Tài khoản-> Chọn "Đăng ký" (Bỏ qua bước này nếu bạn đã có tài khoản trên hệ thống)</li>
+                	<li>Bước 2: Sau khi tạo tài khoản thành công, bạn nhấn vào mục "Đăng nhập"</li>
+                	<li>Bước 3: Khi đăng nhập xong, bạn sẽ có thể xem được thông tin về các em chưa được nhận nuôi ở mục "Nhận nuôi em"</li>
+                	<li>Bước 4: Khi muốn nhận nuôi trẻ, bạn nhấn vào nút "Nhận nuôi" của trẻ em đó (Bạn có thể nhận nuôi nhiều trẻ)</li>
+                	<li>Bước 5: Sau khi nhận nuôi trẻ em, bạn sẽ được nhắc nhở hàng tháng vào ngày 10 để chuyển khoản số tiền trợ cấp cho các em</li>
+ 					<li>Bước 6: Để xem danh sách trẻ em mà bạn đã nhận nuôi, nhấn vào mục "Thông tin nhận nuôi"</li>
+ 					<li>Bước 7: Để chuyển khoản số tiền nuôi em, bạn nhấn vào mục "Thanh toán" và quét mã QR để thực hiện giao dịch.
+ 								Số tiền dư sẽ được dùng để xây trường học</li>
+                </ul>
+                
+                <div class="fs-6 fw-bold mb-3 text-success">**Lưu ý: Để HỦY nhận nuôi em, bạn nhấn vào "Thông tin nhận nuôi", 
+                		nhấn vào nút "Hủy nhận nuôi" của trẻ em đó</div>
+            </div>
+            
+        </div>
+        
+        
+    </div>
+    <!-- Contact End -->
+
+
+    <div  th:replace="fragments/footer :: footer" ></div>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+			 <h3 class="text-center mt-5" style="color:#38761D;">Quản lý việc học</h3>
+    
+			<div class="mx-auto" style="width:80%;" >
+				
+			
+				<form th:action="@{/admin/study/list}" method="get">
+				    <label for="childID">Lọc theo trẻ em:</label>
+				    <select name="childID" id="childID" style="margin-right:8rem">
+				        <option value="0">Tất cả trẻ em</option>
+				        <option th:each="child : ${childrenList}" 
+				                th:value="${child.childID}" 
+				                th:text="${child.fullname}"
+				                th:selected="${child.childID == childID}"></option>
+				    </select>
+				    
+				    <label for="schoolID">Trường:</label>
+				    <select name="schoolID" id="schoolID" style="margin-right:10rem; margin-bottom:1rem; margin-top:1rem">
+				        <option value="0">Tất cả trường</option>
+				        <option th:each="school : ${schoolsList}" 
+				                th:value="${school.schoolID}" 
+				                th:text="${school.schoolName}"
+				                th:selected="${school.schoolID == schoolID}"></option>
+				    </select>
+				    
+				    <label for="schoolYearID">Năm học:</label>
+				    <select name="schoolYearID" id="schoolYearID" style="margin-right:10rem; margin-bottom:1rem;">
+				        <option value="0">Tất cả năm học</option>
+				        <option th:each="year : ${schoolYearsList}" 
+				                th:value="${year.schoolYearID}" 
+				                th:text="${year.schoolYearName}"
+				                th:selected="${year.schoolYearID == schoolYearID}"></option>
+				    </select>
+				    
+				    <label for="gradeID">Khối lớp:</label>
+				    <select name="gradeID" id="gradeID" style="margin-right:9rem">
+				        <option value="0">Tất cả khối lớp</option>
+				        <option th:each="grade : ${gradesList}" 
+				                th:value="${grade.gradeID}" 
+				                th:text="${grade.gradeName}"
+				                th:selected="${grade.gradeID == gradeID}"></option>
+				    </select>
+				    
+				    <button type="submit">Lọc</button>
+				</form>
+			
+			
+				<a th:href="@{/admin/study/new}" class="mb-5 fs-5 fw-bold">Thêm mới</a>
+				<div th:if="${message}" class="alert alert-success text-center">
+					[[${message}]]
+				</div>
+				<div th:if="${error}" class="alert alert-danger text-center">
+					[[${error}]]
+				</div>
+				<table class="table" style="background: #dcebd8">
+					<thead>
+						<tr>
+							<th scope="col">ID trẻ em</th>
+							<th scope="col">Tên trẻ em</th>
+							<th scope="col">Khối lớp</th>
+							<th scope="col">Tên trường</th>
+							<th scope="col">Năm học</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="study : ${listStudies}">
+						<tr>
+							<td>[[${study.children.childID}]]</td>
+							<td>[[${study.children.fullname}]]</td>
+							<td>[[${study.grade.gradeName}]]</td>
+							<td>[[${study.school.schoolName}]]</td>
+							<td>[[${study.schoolYear.schoolYearName}]]</td>
+							
+							<td class="h6">
+								<a th:href="@{'/admin/study/edit/' +${study.studyID}}" class="me-3">Chỉnh sửa</a>
+								<a href="#" th:onclick="'javascript:confirmDelete(\'' + ${study.studyID} + '\');'">Xóa</a>
+								
+							</td>
+						</tr>
+						</th:block>
+					
+					</tbody>
+				</table>	
+				<a th:href="@{/admin/study/listDeleted}" class="mb-5 fs-5 fw-bold">Phục hồi việc học</a>		
+			</div>
+			
+			<div class="mx-auto text-center">
+			    <div>
+			        <a class="p-2" style="color:green"
+			           th:if="${listStudies.hasPrevious()}" 
+			           th:href="@{/admin/study/list(page=${listStudies.number - 1}, size=${listStudies.size})}">
+			            « Trang trước
+			        </a>
+
+			        <div th:if="${listStudies.totalPages > 0}" th:each="i : ${#numbers.sequence(0, listStudies.totalPages - 1)}" style="display:inline-block">
+			            <a th:href="@{/admin/study/list(page=${i}, size=${listStudies.size})}" 
+			               th:text="${i + 1}" 
+			               style="padding:0.3rem 0.7rem; background:#174a06; color:white; margin: 0rem 0.4rem; text-decoration: none;"
+			               th:classappend="${i == listStudies.number} ? 'active'">
+			            </a>
+			        </div>
+			
+			        <a class="p-2" style="color:green"
+			           th:if="${listStudies.hasNext()}" 
+			           th:href="@{/admin/study/list(page=${listStudies.number + 1}, size=${listStudies.size})}">
+			            Trang sau »
+			        </a>
+			    </div>
+			</div>
+			
+			
+		</div>
+	</div>	
+	
+	<script type="text/javascript">
+	    function confirmDelete(studyId) {
+	        if (confirm('Bạn có chắc chắn muốn xóa?')) {
+	            window.location.href = '/admin/study/delete/' + studyId;
+	        }
+	    }
+	</script>
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

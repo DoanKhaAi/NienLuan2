@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+			 <h3 class="text-center mt-5" style="color:#38761D;">Quản lý Huyện</h3>
+			 
+			 
+    
+			<div class="mx-auto" style="width:80%;" >
+			
+				<form th:action="@{/admin/district/list}" method="get" style="float:right;margin-bottom:1rem">
+				    <label for="provinceID">Lọc theo tỉnh:</label>
+				    <select name="provinceID" id="provinceID">
+				        <option value="0">Tất cả các tỉnh</option>
+				        <option th:each="province : ${provinces}" 
+				                th:value="${province.provinceID}" 
+				                th:text="${province.provinceName}"
+				                th:selected="${province.provinceID == provinceID}"></option>
+				    </select>
+				    <button type="submit">Lọc</button>
+				</form>
+			
+				<a th:href="@{/admin/district/new}" class="mb-5 fs-5 fw-bold">Thêm Huyện mới</a>
+				<div th:if="${message}" class="alert alert-success text-center">
+					[[${message}]]
+				</div>
+				<table class="table" style="background: #dcebd8">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Tên huyện</th>
+							<th>Tên tỉnh</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="district : ${listDistricts}">
+						<tr>
+							<td>[[${district.districtID}]]</td>
+							<td>[[${district.districtName}]]</td>
+							<td>[[${district.province.getProvinceName()}]]</td>
+							<td class="h6">
+								<a th:href="@{'/admin/district/edit/' +${district.districtID}}" class="me-3">Chỉnh sửa huyện</a>
+								<a href="#" th:onclick="'javascript:confirmDelete(\'' + ${district.districtID} + '\');'">Xóa huyện</a>
+							</td>
+						</tr>
+						</th:block>
+					
+					</tbody>
+				</table>
+				<a th:href="@{/admin/district/listDeleted}" class="mb-5 fs-5 fw-bold">Phục hồi huyện</a>			
+			</div>
+			
+			<div class="mx-auto text-center">
+			    <div>
+			        <a class="p-2" style="color:green" 
+			           th:if="${listDistricts.number > 0}" 
+			           th:href="@{/admin/district/list(page=${listDistricts.number - 1}, size=${listDistricts.size})}">
+			            « Trang trước
+			        </a>
+			
+			        <div th:if="${listDistricts.totalPages > 0}" th:each="i : ${#numbers.sequence(0, listDistricts.totalPages - 1)}" style="display:inline-block">
+			            <a th:href="@{/admin/district/list(page=${i}, size=${listDistricts.size})}" 
+			               th:text="${i + 1}" 
+			               style="padding:0.3rem 0.7rem; background:#174a06; color:white; margin: 0rem 0.4rem; text-decoration: none;"
+			               th:classappend="${i == listDistricts.number} ? 'active'">
+			            </a>
+			        </div>
+			        <a class="p-2" style="color:green" 
+			           th:if="${listDistricts.number < listDistricts.totalPages - 1}" 
+			           th:href="@{/admin/district/list(page=${listDistricts.number + 1}, size=${listDistricts.size})}">
+			            Trang sau »
+			        </a>
+			    </div>
+			</div>
+			
+			
+		</div>
+	</div>	
+	
+	<script type="text/javascript">
+	    function confirmDelete(districtId) {
+	        if (confirm('Bạn có chắc chắn muốn xóa huyện này?')) {
+	            window.location.href = '/admin/district/delete/' + districtId;
+	        }
+	    }
+	</script>
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

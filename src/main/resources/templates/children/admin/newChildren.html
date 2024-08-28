@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+		<h2 class=" text-center mt-5" style="color:#38761D;">[[${pageTitle}]]</h2>
+			<form th:action="@{/admin/children/save}" method="post" th:object="${children}"
+				style="width:500px; margin:0 auto"  enctype="multipart/form-data">
+				<div class="border border-success rouded p-3">
+				<input type=hidden th:field="*{childID}"/>
+				
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">Họ và tên</span> 
+					<input th:field="*{fullname}" type="text" class="form-control" required>
+				</div>
+				
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">Ngày sinh</span> 
+					<input th:field="*{birthday}" type="date" class="form-control">
+				</div>
+				
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">Giới tính</span> 
+					<select th:field="*{gender}" type="text" class="form-control">
+						<option value="">Chọn giới tính</option>
+			            <option value="1">Nam</option>
+			            <option value="2">Nữ</option>
+       				 </select>
+				</div>
+				
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">Ảnh đại diện</span> 
+					<input type="file" class="form-control" name="imageFile"
+						accept=".jpg, .jpeg, .png">
+				</div>
+				
+				<div class="text-center">
+						<button type="submit" class="btn btn-primary m-2">Lưu trẻ em</button>
+						<button type="button" class="btn btn-secondary m-2" style="background-color:gray">
+							<a th:href="@{/admin/children/list}" style="color:white;">Hủy</a>				
+						</button>	
+				</div>
+			</form>
+		</div>
+	
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

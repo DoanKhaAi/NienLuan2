@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	
+	<div  th:replace="user/fragmentsuser/navbaruser :: navbaruser" ></div>
+    
+    <div class="container">
+         <div class=" text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">  
+             <h1 class="display-6" style="color: #38761D; ">DANH SÁCH TRẺ EM</h1></div>
+          <div th:if="${message_adopt}" class="alert alert-success text-center">
+					[[${message_adopt}]]
+				</div>
+				
+			<form style="margin-top: 4rem; margin-left:2rem">
+
+				<label for="provinceSelect" style="margin-left:1rem">Tỉnh:</label>
+			    <select name="provinceId" id="provinceSelect">
+			        <option value="">Tất cả các tỉnh</option>
+			        <option th:each="province : ${provinces}" 
+			                th:value="${province.provinceID}" 
+			                th:text="${province.provinceName}">
+			        </option>
+			    </select>
+			
+			    <label for="districtSelect" style="margin-left:1rem">Huyện:</label>
+			    <select name="districtId" id="districtSelect" disabled>
+			        <option value="">Tất cả các huyện</option>
+			        <!-- Các tùy chọn huyện sẽ được thêm vào ở đây -->
+			    </select>
+			
+			    <label for="schoolSelect" style="margin-left:1rem">Trường:</label>
+			    <select name="schoolId" id="schoolSelect"  style="width:18rem; " disabled>
+			        <option value="">Tất cả các trường</option>
+			        <!-- Các tùy chọn trường sẽ được thêm vào ở đây -->
+			    </select>
+			    
+			    <label for="gradeSelect" style="margin-left:1rem">Khối:</label>
+			    <select name="gradeId" id="gradeSelect">
+			        <option value="">Tất cả khối lớp</option>
+			        <option th:each="grade : ${grades}"
+			                th:value="${grade.gradeID}"
+			                th:text="${grade.gradeName}">
+			        </option>
+			    </select>
+			
+			    <button type="submit" style="margin-left: 1rem">Lọc</button>
+			</form>
+		
+
+          <div class="row mt-5" >
+          <th:block th:each="child : ${listChildren}">
+            
+            <div class="col-3">
+	             	<div class="card me-3" style="width: 100%; ">
+						<img th:src="@{'/img/children/'+${child.image}}" class="card-img-top" style="width:100%; height:14rem">
+						<div class="card-body">
+							<h5 class="card-title" style="color:green">[[${child.fullname}]]</h5>
+							<h6 style="font-family: Times New Roman; font-size:1rem;">Ngày sinh: [[${child.birthday}]]</h6>
+							<h6 style="font-family: Times New Roman; font-size:1rem" 
+									th:text="${child.gender == 1 ? 'Giới tính: Nam' : 'Giới tính: Nữ'}"></h6>
+							<h6 style="font-family: Times New Roman; font-size:1rem" 
+								th:text="${studyMap[child.childID]?.school?.schoolName}"></h6>
+							<h6 style="font-family: Times New Roman; font-size:1rem" 
+								th:text="${studyMap[child.childID]?.school?.district.districtName}+', '
+								+ ${studyMap[child.childID]?.school?.district.province.provinceName} "></h6>
+							<a th:href="@{'/user/children/adopted/'+${child.childID}}" class="btn btn-primary" style="float:right;font-family: Times New Roman;
+										 font-size:1.1rem; font-weight:500" onclick="return confirmAdopt();">Nhận nuôi</a>
+						</div>
+					</div>
+	         </div>
+            </th:block>
+          </div> 
+ 	
+		 <div class="text-center">
+			    <div style="display:inline-block; margin-top:0.9rem;" th:if="${currentPage > 0}">
+			        <a th:href="@{/user/children/list(page=${currentPage - 1}, size=${size}, provinceId=${provinceId}, districtId=${districtId}, schoolId=${schoolId}, gradeId=${gradeId})}" 
+			           style="color:green;" class="fs-6">« Trang trước</a>
+			    </div>
+			    <div  th:if="${totalPages > 0}" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" style="display:inline-block; margin-top:0.9rem;">
+			        <a th:href="@{/user/children/list(page=${i}, size=${size}, provinceId=${provinceId}, districtId=${districtId}, schoolId=${schoolId}, gradeId=${gradeId})}"
+			           th:text="${i + 1}" style="padding:0.3rem 0.7rem; background:#174a06; color:white; margin: 0rem 0.2rem;"></a>
+			    </div>
+			    <div style="display:inline-block; margin-top:0.9rem;" th:if="${currentPage < totalPages - 1}">
+			        <a th:href="@{/user/children/list(page=${currentPage + 1}, size=${size}, provinceId=${provinceId}, districtId=${districtId}, schoolId=${schoolId}, gradeId=${gradeId})}"
+			           style="color:green;" class="fs-6">Trang sau »</a>
+			    </div>
+		</div>
+
+ 			
+    </div>
+    
+	<script type="text/javascript">
+	    function confirmAdopt() {
+	        return confirm('Bạn có chắc chắn muốn nhận nuôi không?');
+	    }
+	    
+	    document.getElementById("provinceSelect").addEventListener("change", updateDistricts);
+	    document.getElementById("districtSelect").addEventListener("change", updateSchools);
+	    
+	    document.addEventListener("DOMContentLoaded", function() {
+	        var provinceSelect = document.getElementById("provinceSelect");
+
+	        fetch('/get-provinces')
+	            .then(response => response.text())
+	            .then(html => {
+	                provinceSelect.innerHTML = html;
+	            })
+	            .catch(error => console.error('Error fetching provinces:', error));
+	    });
+
+	    
+	    function updateDistricts() {
+	        var provinceId = document.getElementById("provinceSelect").value;
+	        var districtSelect = document.getElementById("districtSelect");
+	        var schoolSelect = document.getElementById("schoolSelect");
+
+	        if (!provinceId) {
+	            districtSelect.disabled = true;
+	            schoolSelect.disabled = true;
+	            districtSelect.innerHTML = '<option value="">Tất cả các huyện</option>';
+	            schoolSelect.innerHTML = '<option value="">Tất cả các trường</option>';
+	            return;
+	        }
+
+	        districtSelect.disabled = false;
+	        schoolSelect.disabled = true;
+	        schoolSelect.innerHTML = '<option value="">Tất cả các trường</option>';
+
+	        fetch(`/get-districts?provinceId=${provinceId}`)
+	            .then(response => response.text())
+	            .then(html => {
+	                districtSelect.innerHTML = html;
+	            })
+	            .catch(error => console.error('Error fetching districts:', error));
+	    }
+
+	    function updateSchools() {
+	        var districtId = document.getElementById("districtSelect").value;
+	        var schoolSelect = document.getElementById("schoolSelect");
+
+	        if (!districtId) {
+	            schoolSelect.disabled = true;
+	            schoolSelect.innerHTML = '<option value="">Tất cả các trường</option>';
+	            return;
+	        }
+
+	        schoolSelect.disabled = false;
+
+	        fetch(`/get-schools?districtId=${districtId}`)
+	            .then(response => response.text())
+	            .then(html => {
+	                schoolSelect.innerHTML = html;
+	            })
+	            .catch(error => console.error('Error fetching schools:', error));
+	    }
+
+
+	</script>
+    <!-- Footer Start -->
+    <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

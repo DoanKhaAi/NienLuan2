@@ -1,0 +1,36 @@
+<div  th:replace="fragments/header :: header" ></div>
+<body>
+	<div  th:replace="fragments/navbar :: navbar" ></div>
+   
+    <div class="container" >
+   		<div class="text-center mx-auto" data-wow-delay="0.1s" style="max-width: 500px;">
+             <h1 class="display-6" style="color: #38761D; ">Đăng nhập</h1>
+        </div>
+         
+        <div th:if="${param.error}" class="alert alert-danger text-center" role="alert">
+           	<span th:text="${session.errorLoginMessage}"></span>
+        </div>
+	    <div class="mx-auto p-5" style="width: 52%; background: rgba(76, 153, 0, 0.3); border-radius:10%;">
+	    	<form action="/login" method="post">
+				<div class="input-group mb-3">
+					<label for="username" class="input-group-text" id="basic-addon1" style="width: 8.1rem">Tên đăng nhập</label> 
+					<input type="text" id="username" name="username" class="form-control" required >
+				</div>
+				<div class="input-group mb-3">
+					<label for="password" class="input-group-text" id="basic-addon1" style="width: 8.1rem">Mật khẩu</label> 
+					<input type="password" id="password" name="password" class="form-control" required >
+				</div>
+				
+				<div style="display:flex; justify-content:space-between">
+					<p style="font-weight: 600;color: #4A9232" >Bạn chưa có tài khoản? <a href="/register" style="color:blue">Đăng ký</a></p>
+					<input class="btn btn-primary" type="submit" value="Đăng nhập">
+				</div>
+				
+			</form>
+			
+	    </div>
+    </div>
+
+	<div  th:replace="fragments/footer:: footer" ></div>
+</body>
+</html>

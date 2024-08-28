@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+			 <h3 class="text-center mt-5" style="color:#38761D;">Quản lý Tỉnh</h3>
+    
+			<div class="mx-auto" style="width:80%;" >
+				<a th:href="@{/admin/province/new}" class="mb-5 fs-5 fw-bold">Thêm tỉnh mới</a>
+				<div th:if="${message}" class="alert alert-success text-center">
+					[[${message}]]
+				</div>
+				<div th:if="${error}" class="alert alert-danger text-center">
+					[[${error}]]
+				</div>
+				<table class="table" style="background: #dcebd8">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Tên tỉnh</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="province : ${listProvinces}">
+						<tr>
+							<td>[[${province.provinceID}]]</td>
+							<td>[[${province.provinceName}]]</td>
+							<td class="h6">
+								<a th:href="@{'/admin/province/edit/' +${province.provinceID}}" class="me-3">Chỉnh sửa tỉnh</a>
+								<a href="#" th:onclick="'javascript:confirmDelete(\'' + ${province.provinceID} + '\');'">Xóa tỉnh</a>
+								
+							</td>
+						</tr>
+						</th:block>
+					
+					</tbody>
+				</table>
+				<a th:href="@{/admin/province/listDeleted}" class="mb-5 fs-5 fw-bold">Phục hồi tỉnh</a>			
+			</div>
+			
+			<div class="mx-auto text-center">
+			    <div>
+			        <a class="p-2" style="color:green" 
+			           th:if="${listProvinces.number > 0}" 
+			           th:href="@{/admin/province/list(page=${listProvinces.number - 1}, size=${listProvinces.size})}">
+			            « Trang trước
+			        </a>
+			
+			        <div th:each="i : ${#numbers.sequence(0, listProvinces.totalPages - 1)}" style="display:inline-block">
+			            <a th:href="@{/admin/province/list(page=${i}, size=${listProvinces.size})}" 
+			               th:text="${i + 1}" 
+			               style="padding:0.3rem 0.7rem; background:#174a06; color:white; margin: 0rem 0.4rem; text-decoration: none;"
+			               th:classappend="${i == listProvinces.number} ? 'active'">
+			            </a>
+			        </div>
+			
+			        <a class="p-2" style="color:green" 
+			           th:if="${listProvinces.number < listProvinces.totalPages - 1}" 
+			           th:href="@{/admin/province/list(page=${listProvinces.number + 1}, size=${listProvinces.size})}">
+			            Trang sau »
+			        </a>
+			    </div>
+			</div>
+
+			
+		</div>
+	</div>	
+	
+	<script type="text/javascript">
+	    function confirmDelete(provinceId) {
+	        if (confirm('Bạn có chắc chắn muốn xóa tỉnh này?')) {
+	            window.location.href = '/admin/province/delete/' + provinceId;
+	        }
+	    }
+	</script>
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

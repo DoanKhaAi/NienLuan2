@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+			 <h3 class="text-center mt-5" style="color:#38761D;">Quản lý Trường học</h3>
+    
+			<div class="mx-auto" style="width:80%;" >
+			
+				 <form th:action="@{/admin/school/list}" method="get" style="float:right; margin-bottom:1rem">
+				    <label for="districtID">Lọc theo huyện:</label>
+				    <select name="districtID" id="districtID">
+				        <option value="0">Tất cả các huyện</option>
+				        <option th:each="district : ${districts}" 
+				                th:value="${district.districtID}" 
+				                th:text="${district.districtName}"
+				                th:selected="${district.districtID == districtID}"></option>
+				    </select>
+				    <button type="submit">Lọc</button>
+				</form>
+			
+				<a th:href="@{/admin/school/new}" class="mb-5 fs-5 fw-bold">Thêm Trường mới</a>
+				<div th:if="${message}" class="alert alert-success text-center">
+					[[${message}]]
+				</div>
+				<table class="table" style="background: #dcebd8">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Tên trường</th>
+							<th>Tên huyện</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="school : ${listSchools}">
+						<tr>
+							<td>[[${school.schoolID}]]</td>
+							<td>[[${school.schoolName}]]</td>
+							<td>[[${school.district.getDistrictName()}]]</td>
+							<td class="h6">
+								<a th:href="@{'/admin/school/edit/' +${school.schoolID}}" class="me-3">Chỉnh sửa trường</a>
+								<a href="#" th:onclick="'javascript:confirmDelete(\'' + ${school.schoolID} + '\');'">Xóa trường</a>
+							</td>
+						</tr>
+						</th:block>
+					
+					</tbody>
+				</table>
+				<a th:href="@{/admin/school/listDeleted}" class="mb-5 fs-5 fw-bold">Phục hồi trường</a>			
+			</div>
+			<div class="mx-auto text-center">
+			    <div>
+			        <a class="p-2" style="color:green"
+			           th:if="${listSchools.number > 0}"
+			           th:href="@{/admin/school/list(page=${listSchools.number - 1}, size=${listSchools.size})}">
+			            « Trang trước
+			        </a>
+			        
+			        <div  th:if="${listSchools.totalPages > 0}" th:each="i : ${#numbers.sequence(0, listSchools.totalPages - 1)}" 
+			             style="display:inline-block; margin: 0 5px;">
+			            <a th:href="@{/admin/school/list(page=${i}, size=${listSchools.size})}"
+			               th:text="${i + 1}"
+			               style="padding:0.3rem 0.7rem; background:#174a06; color:white;">
+			            </a>
+			        </div>
+			        
+			        <a class="p-2" style="color:green"
+			           th:if="${listSchools.number < listSchools.totalPages - 1}"
+			           th:href="@{/admin/school/list(page=${listSchools.number + 1}, size=${listSchools.size})}">
+			            Trang sau »
+			        </a>
+			    </div>
+		</div>
+			
+			
+		</div>
+	</div>	
+	
+	<script type="text/javascript">
+	    function confirmDelete(schoolId) {
+	        if (confirm('Bạn có chắc chắn muốn xóa trường này?')) {
+	            window.location.href = '/admin/school/delete/' + schoolId;
+	        }
+	    }
+	</script>
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

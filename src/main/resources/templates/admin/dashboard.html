@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10 text-center mt-5" style="color:#38761D;">
+			 <h3>Chào mừng Admin [[${user.username}]]</h3>
+			 <h4><a th:href="@{'/profile/detail/' +${user.userID}}" class="me-3">Thông tin chi tiết</a></h4>			
+		</div>
+	</div>	
+	
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

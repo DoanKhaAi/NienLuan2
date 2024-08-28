@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+			 <h3 class="text-center mt-5" style="color:#38761D;">Danh sách các huyện đã xóa</h3>
+    
+			<div class="mx-auto" style="width:80%;" >
+				<a th:href="@{/admin/district/list}" class="mb-5 fs-5 fw-bold">Trở về</a>
+				<div th:if="${message}" class="alert alert-success text-center">
+					[[${message}]]
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Tên huyện</th>
+							<th>Tên tỉnh</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="district : ${listDistricts}">
+						<tr>
+							<td>[[${district.districtID}]]</td>
+							<td>[[${district.districtName}]]</td>
+							<td>[[${district.province.getProvinceName()}]]</td>
+							<td class="h6">
+								<a th:href="@{'/admin/district/restore/' +${district.districtID}}" class="me-3">Phục hồi huyện</a>
+								
+							</td>
+						</tr>
+						</th:block>
+					
+					</tbody>
+				</table>			
+			</div>
+		</div>
+	</div>	
+	
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>

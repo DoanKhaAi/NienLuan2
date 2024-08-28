@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<div  th:replace="fragments/header :: header" ></div>
+
+<body>
+	<div  th:replace="admin/admin_fragments/admin_navbar :: admin_navbar" ></div>
+	
+	<div class="row">
+		<div class="col-2">
+			<div  th:replace="admin/admin_fragments/admin_sidebar :: admin_sidebar" ></div>
+		</div>
+		<div class="col-10">
+			
+			<h2 class=" text-center mt-5" style="color:#38761D;">[[${pageTitle}]]</h2>
+				<form th:action="@{/admin/schoolYear/save}" method="post" th:object="${schoolYear}"
+					style="max-width:550px; margin:0 auto">
+					<div class="border border-success rouded p-3">
+						<input type=hidden th:field="*{schoolYearID}"/>
+						
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label">Năm học bắt đầu:</label>
+							<div class="col-sm-8">
+								<input type="number" id="startYear" name="startYear" style="width:100%"/>
+							</div>
+						</div>
+					
+						
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary m-2">Lưu</button>
+							<button type="button" class="btn btn-secondary m-2" style="background-color:gray">
+								<a th:href="@{/admin/schoolYear/list}" style="color:white;">Hủy</a>	
+							</button>
+							
+						</div>
+					</div>
+				</form>
+		</div>
+	</div>
+	<div  th:replace="admin/admin_fragments/admin_footer :: admin_footer" ></div>
+	
+</body>
+</html>
